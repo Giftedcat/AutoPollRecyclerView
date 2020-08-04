@@ -28,7 +28,6 @@ public class AutoPollRecyclerView extends RecyclerView {
         super(context, attrs);
         scroll_num = 2;
         autoPollTask = new AutoPollTask(this);
-        start();
     }
 
     private class AutoPollTask implements Runnable {
@@ -59,17 +58,20 @@ public class AutoPollRecyclerView extends RecyclerView {
     }
 
     /**
-     * 开启:如果正在运行,先停止->再开启
+     * 开始自动滚动
      */
-    public void start() {
+    public void startRoll() {
         if (running)
-            stop();
+            stopRoll();
         canRun = true;
         running = true;
         postDelayed(autoPollTask, TIME_AUTO_POLL);
     }
 
-    public void stop() {
+    /**
+     * 停止滚动
+     * */
+    public void stopRoll() {
         running = false;
         removeCallbacks(autoPollTask);
     }
@@ -79,13 +81,13 @@ public class AutoPollRecyclerView extends RecyclerView {
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (running)
-                    stop();
+                    stopRoll();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_OUTSIDE:
                 if (canRun)
-                    start();
+                    startRoll();
                 break;
         }
         return super.onTouchEvent(e);

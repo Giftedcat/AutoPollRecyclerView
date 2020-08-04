@@ -29,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
         AutoPollAdapter adapter = new AutoPollAdapter(list);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
+        recyclerView.startRoll();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (null != recyclerView) {
-            recyclerView.stop();
+            recyclerView.stopRoll();
         }
     }
 
